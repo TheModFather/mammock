@@ -1,6 +1,6 @@
 'use strict';
 
-var mammock = require('../lib/mammock.js');
+var Mammock = require('../lib/mammock.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -22,15 +22,17 @@ var mammock = require('../lib/mammock.js');
     test.ifError(value)
 */
 
-exports['awesome'] = {
+exports['Server'] = {
   setUp: function(done) {
     // setup here
     done();
   },
   'no args': function(test) {
-    test.expect(1);
+    test.expect(2);
     // tests here
-    test.equal(mammock.awesome(), 'awesome', 'should be awesome.');
+    var server = new Mammock.Server({});
+    test.equal(typeof server, 'object', 'should be an object type.');
+    test.ok(server instanceof Mammock.Server);
     test.done();
   },
 };
