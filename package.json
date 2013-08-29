@@ -1,7 +1,7 @@
 {
   "name": "mammock",
   "description": "Mammock is a node.js service mocking framework deisgned to be quick and easy, allowing developers to fill the \"missing gaps\" in services during development.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "homepage": "https://github.com/earmbrust/mammock",
   "author": {
     "name": "Elden Armbrust",

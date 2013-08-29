@@ -20,6 +20,10 @@ _(Coming soon)_
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+### 0.1.3
+* Fixed major endpoint bug, which resulted in endpoints being inaccessible
+* Fixed index routing bug
+
 ### 0.1.2
 * Added timestamps to logs
 * Added -s/--silent option to allow running the server sans output
