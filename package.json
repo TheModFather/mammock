@@ -32,11 +32,13 @@
     "test": "grunt nodeunit"
   },
   "dependencies": {
+    "stdio": "~0.1.0",
     "q": "~0.9.6",
     "winston": "~0.7.2",
     "node.extend": "~1.0.8"
   },
   "devDependencies": {
+    "stdio": "~0.1.0",
     "q": "~0.9.6",
     "winston": "~0.7.2",
     "node.extend": "~1.0.8",
