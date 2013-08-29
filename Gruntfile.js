@@ -35,6 +35,9 @@ module.exports = function (grunt) {
                 dest: 'build/lib/mammock.js'
             }
         },
+        clean: {
+            build: ["build"]
+        },
         copy: {
           main: {
             files: [
@@ -66,8 +69,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
     // Default task.
     grunt.registerTask('default', ['jshint', 'nodeunit']);
+    grunt.registerTask('build', ['jshint', 'nodeunit', 'uglify', 'copy']);
 
 };
