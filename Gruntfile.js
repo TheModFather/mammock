@@ -28,18 +28,21 @@ module.exports = function (grunt) {
             options: {
                 compress: true
             },
-            bin: {
-                src: [
-                    "bin/mammock.js"
-                ],
-                dest: 'build/bin/mammock.js'
-            },
             lib: {
                 src: [
                     "lib/mammock.js"
                 ],
                 dest: 'build/lib/mammock.js'
             }
+        },
+        copy: {
+          main: {
+            files: [
+              //{expand: true, src: ['bin/*.js'], dest: 'build/', filter: 'isFile'},
+              //{expand: true, src: ['lib/*.js'], dest: 'build/', filter: 'isFile'},
+              {expand: true, src: ['bin/*.js', 'lib/*.js', 'package.json', 'LICENSE', 'README.md'], dest: 'build/', filter: 'isFile'}
+            ]
+          }
         },
         watch: {
             gruntfile: {
@@ -54,7 +57,7 @@ module.exports = function (grunt) {
                 files: '<%= jshint.test.src %>',
                 tasks: ['jshint:test', 'nodeunit']
             },
-        },
+        }
     });
 
     // These plugins provide necessary tasks.
@@ -62,6 +65,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     // Default task.
     grunt.registerTask('default', ['jshint', 'nodeunit']);
