@@ -2,3 +2,5 @@
 mammock.sublime-project
 mammock.sublime-workspace
 *~
+build
+npm-debug.log

@@ -4,11 +4,14 @@ Mammock is a node.js service mocking framework deisgned to be quick and easy, al
 
 ## Getting Started
 Install the module with: `npm install mammock`
+The command line script and library can also be installed globally, with: `npm install -g mammock`
+_Note: To install globally, it may be necessary to become a superuser on your OS with a command such as `sudo`_
 
 ## Command Line Usage
-    USAGE: node mammock [--port <ARG1>] [--root <ARG1>] 
+    USAGE: node mammock [--port <ARG1>] [--root <ARG1>] [--silent] 
       -p, --port <ARG1>     specify the port to listen on
       -r, --root <ARG1>     root path to serve from
+      -s, --silent          runs the server without console output
 
 ## Documentation
 _(Coming soon)_
@@ -17,6 +20,12 @@ _(Coming soon)_
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+### 0.1.2
+* Added timestamps to logs
+* Added -s/--silent option to allow running the server sans output
+* Renamed bin/mammock to bin/mammock.js because no extension is stupid.
+* endpoints should now be reachable
+
 ### 0.1.1
 * First functional server running as intended.
 * Options added to command line

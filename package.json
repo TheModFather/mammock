@@ -1,7 +1,7 @@
 {
   "name": "mammock",
   "description": "Mammock is a node.js service mocking framework deisgned to be quick and easy, allowing developers to fill the \"missing gaps\" in services during development.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/earmbrust/mammock",
   "author": {
     "name": "Elden Armbrust",
@@ -22,7 +22,7 @@
     }
   ],
   "bin": {
-    "mammock": "bin/mammock"
+    "mammock": "bin/mammock.js"
   },
   "main": "lib/mammock",
   "engines": {
@@ -35,14 +35,17 @@
     "stdio": "~0.1.0",
     "q": "~0.9.6",
     "winston": "~0.7.2",
-    "node.extend": "~1.0.8"
+    "node.extend": "~1.0.8",
+    "dateformat": "~1.0.6-1.2.3"
   },
   "devDependencies": {
     "stdio": "~0.1.0",
     "q": "~0.9.6",
     "winston": "~0.7.2",
     "node.extend": "~1.0.8",
+    "dateformat": "~1.0.6-1.2.3",
     "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-contrib-watch": "~0.4.0",
     "grunt": "~0.4.1"
