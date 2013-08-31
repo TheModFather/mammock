@@ -2,6 +2,7 @@
 
 module.exports = function (grunt) {
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
         nodeunit: {
             files: ['test/**/*_test.js'],
         },
@@ -24,7 +25,9 @@ module.exports = function (grunt) {
         },
         uglify: {
             options: {
-                compress: true
+                compress: true,
+                banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+                        '<%= grunt.template.today("yyyy-mm-dd") %> */'
             },
             lib: {
                 src: [
