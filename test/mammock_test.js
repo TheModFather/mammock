@@ -30,9 +30,9 @@ exports['Server'] = {
   'no args': function(test) {
     test.expect(2);
     // tests here
-    var server = new Mammock.Server({});
+    var server = new Mammock({});
     test.equal(typeof server, 'object', 'should be an object type.');
-    test.ok(server instanceof Mammock.Server);
+    test.ok(server instanceof Mammock);
     test.done();
   },
 };
