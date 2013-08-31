@@ -1,7 +1,6 @@
 'use strict';
 
-var Mammock = require('../lib/mammock.js');
-
+var proxyquire =  require('proxyquire');
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -22,17 +21,66 @@ var Mammock = require('../lib/mammock.js');
     test.ifError(value)
 */
 
+
+var winstonMock = {
+  Logger: function () {
+    return {
+      info: function () { },
+      warn: function () { },
+      error: function () { },
+      extend: function (object) {
+        object.info = this.info;
+        object.warn = this.warn;
+        object.error = this.error;
+      }
+    };
+  }
+};
+
+var httpRequest = {
+  url: "/",
+  headers: {
+    "content-type": "application/json"
+  }
+};
+
+var httpResponse = {
+  writeHeader: function () { },
+  end: function () { }
+};
+
+var httpMock = {
+  createServer: function () {
+    return {
+      on: this.on,
+      listen: function () { }
+    };  
+  },
+  on: function (event, fn) { fn(httpRequest, httpResponse); },
+  sendRequest: function (fn) {
+    this.on("request", fn); 
+  }
+};
+
 exports['Server'] = {
   setUp: function(done) {
-    // setup here
     done();
   },
   'no args': function(test) {
-    test.expect(2);
-    // tests here
-    var server = new Mammock({});
+    test.expect(4);
+    var Mammock =  proxyquire('../lib/mammock.js', { 'winston': winstonMock, 'http': httpMock });
+    var server = new Mammock();
     test.equal(typeof server, 'object', 'should be an object type.');
     test.ok(server instanceof Mammock);
-    test.done();
+
+    server.start();
+    test.ok(server.options && typeof server.options !== 'undefined', 'should instantiate with options');
+
+    httpMock.sendRequest(function () {
+      test.ok(server, "server responds to requests");
+    });
+    setTimeout(function () {
+      test.done();
+    }, 1000); 
   },
 };

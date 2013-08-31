@@ -21,6 +21,10 @@ _(Coming soon)_
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+### 0.2.1
+* Minor fix for tests
+* Improved test mocks somewhat, but they still need some attention
+
 ### 0.2.0
 * Major rewrite of the routing engine to better suit a multitude of custom requesti methods
 * Removed Mammock.Endpoint and Mammock.Server, moving main constructor to the initial mammock instance
