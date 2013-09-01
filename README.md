@@ -1,4 +1,4 @@
-# mammock [![Build Status](https://secure.travis-ci.org/earmbrust/mammock.png?branch=master)](http://travis-ci.org/earmbrust/mammock)
+# mammock [![Build Status](https://secure.travis-ci.org/earmbrust/mammock.png?branch=master)](http://travis-ci.org/earmbrust/mammock) [![Dependency Status](https://gemnasium.com/earmbrust/mammock.png)](https://gemnasium.com/earmbrust/mammock)
 
 Mammock is a node.js service mocking framework designed to be quick and easy, allowing developers to fill the "missing gaps" in services during development.
 
