@@ -77,13 +77,12 @@ Mammock.prototype.start = function () {
                 isHandled = false;
             for (var index in blacklist) {
                 _this.info("Checking blacklist entries for " + request.url);
-                var blacklist_entry = blacklist[index];
-                var matches = request.url.match(blacklist_entry);
+                var blacklist_entry = blacklist[index],
+                    matches = request.url.match(blacklist_entry);
                 if (matches && matches.length > 0) {
                     _this.error("Found blacklist entry " + blacklist[index] + " for " + request.url);
                     blacklisted = true;
                 }
-
             }
             var route = request.url;
             route = route.replace(/^\//g, '');
@@ -144,7 +143,10 @@ Mammock.prototype.start = function () {
                                 _this.info("Writing header response to " + request.method + " request...");
                                 response.writeHeader(requestResponse.status, requestResponse.headers || {});
                                 _this.info("Writing response to " + request.method + " request...");
-                                response.write(requestResponse.response);
+                                
+                                if (requestResponse.response) {
+                                    response.write(requestResponse.response);
+                                }
                                 response.end();
                             });
                         } else {
@@ -154,7 +156,9 @@ Mammock.prototype.start = function () {
                                 "Content-Type": "application/json"
                             });
                             _this.info("Writing response to " + request.method + " request...");
-                            response.write(requestResponse.response);
+                            if (requestResponse.response) {
+                                response.write(requestResponse.response);    
+                            }
                             response.end();
                         }                        
                     } else {

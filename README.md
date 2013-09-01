@@ -4,18 +4,82 @@ Mammock is a node.js service mocking framework designed to be quick and easy, al
 
 ## Getting Started
 Install the module with: `npm install mammock`
+
 The command line script and library can also be installed globally, with: `npm install -g mammock`
-_Note: To install globally, it may be necessary to become a superuser on your OS with a command such as `sudo`_
+
+_Note: To install globally, it may be necessary to become a superuser on your OS with a command such as `sudo`._
 
 ## Documentation
 ### Basic Usage
-    USAGE: node mammock [--port <ARG1>] [--root <ARG1>] [--silent] 
-      -p, --port <ARG1>     specify the port to listen on
-      -r, --root <ARG1>     root path to serve from
-      -s, --silent          runs the server without console output
+```
+USAGE: node mammock [--port <ARG1>] [--root <ARG1>] [--silent] 
+  -p, --port <ARG1>     specify the port to listen on
+  -r, --root <ARG1>     root path to serve from
+  -s, --silent          runs the server without console output
+```
 
 ### Adanced Usage
-_(Coming soon)_
+Here is an example node, or endpoint, in Mammock:
+```javascript
+module.exports  = function () {
+    //We create a variable to return, 'node', so that we can set properties to the functions
+    var node = {
+        get: function (route, request, response) {
+            return {
+                status: 200,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                response: JSON.stringify({})
+            }
+        },
+        post: function (route, request, response, data) {
+            var endpoint = this,
+                postData = "";
+
+            endpoint.info("Now overriding the POST response...")
+
+            request.on('data', function (data) {
+                endpoint.info("Receiving POST data...");
+                postData += data;
+            });
+            request.on('end', function () {
+                endpoint.info("Finished receiving POST data");
+                
+                endpoint.info("Writing header response to POST request...");
+                response.writeHeader(200, {
+                    "Content-Type": "application/json"
+                });
+                endpoint.info("Writing response to POST request...");
+                response.write(postData);
+                response.end();
+
+            });
+        },
+        put: function (route, request, response, data) {
+            return {
+                status: 200,
+                contentType: "application/json",
+                response: data
+            }
+        },
+        delete: function (route, request, response) {
+            return {
+                status: 200,
+                contentType: "application/json"
+            }
+        }
+    }
+
+    //overriding the node allows us to handle the request manually
+    node.post.override = true;
+    //setting capture on the method will allow you to have the method invoked
+    //after the server has already captured the data, and pass it in as the 
+    //optional fourth parameter
+    node.put.capture = true;
+    return node;
+}
+```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
@@ -24,6 +88,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ### 0.2.1
 * Minor fix for tests
 * Improved test mocks somewhat, but they still need some attention
+* Moved source files to live in src/, to clean up project root
 
 ### 0.2.0
 * Major rewrite of the routing engine to better suit a multitude of custom requesti methods

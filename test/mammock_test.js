@@ -68,7 +68,7 @@ exports['Server'] = {
   },
   'no args': function(test) {
     test.expect(4);
-    var Mammock =  proxyquire('../lib/mammock.js', { 'winston': winstonMock, 'http': httpMock });
+    var Mammock =  proxyquire('../src/lib/mammock.js', { 'winston': winstonMock, 'http': httpMock });
     var server = new Mammock();
     test.equal(typeof server, 'object', 'should be an object type.');
     test.ok(server instanceof Mammock);

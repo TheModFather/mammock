@@ -14,10 +14,10 @@ module.exports = function (grunt) {
                 src: 'Gruntfile.js'
             },
             lib: {
-                src: ['lib/**/*.js']
+                src: ['src/lib/**/*.js']
             },
             bin: {
-                src: ['bin/**/*.js']
+                src: ['src/*.js']
             },
             test: {
                 src: ['test/**/*.js']
@@ -31,18 +31,20 @@ module.exports = function (grunt) {
             },
             lib: {
                 src: [
-                    "lib/mammock.js"
+                    "src/lib/mammock.js"
                 ],
                 dest: 'build/lib/mammock.js'
             }
         },
         clean: {
-            build: ["build"]
+            build: ["build"],
+            extras: ["**/*~"]
         },
         copy: {
           main: {
             files: [
-              {expand: true, src: ['bin/*.js', 'package.json', 'LICENSE', 'README.md'], dest: 'build/', filter: 'isFile'}
+              {expand: true, cwd: "src/", src: ['*.js'], dest: 'build/', filter: 'isFile'},
+              {expand: true, src: ['package.json', 'LICENSE', 'README.md'], dest: 'build/', filter: 'isFile'}
             ]
           }
         },

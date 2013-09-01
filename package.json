@@ -22,7 +22,7 @@
     }
   ],
   "bin": {
-    "mammock": "bin/mammock.js"
+    "mammock": "mammock.js"
   },
   "main": "lib/mammock",
   "engines": {
