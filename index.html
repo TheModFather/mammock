@@ -32,7 +32,7 @@
 
         <section id="main_content">
           <h1>
-<a name="mammock-" class="anchor" href="#mammock-"><span class="octicon octicon-link"></span></a>mammock <a href="http://travis-ci.org/earmbrust/mammock"><img src="https://secure.travis-ci.org/earmbrust/mammock.png?branch=master" alt="Build Status"></a>
+<a name="mammock--" class="anchor" href="#mammock--"><span class="octicon octicon-link"></span></a>mammock <a href="http://travis-ci.org/earmbrust/mammock"><img src="https://secure.travis-ci.org/earmbrust/mammock.png?branch=master" alt="Build Status"></a> <a href="https://gemnasium.com/earmbrust/mammock"><img src="https://gemnasium.com/earmbrust/mammock.png" alt="Dependency Status"></a>
 </h1>
 
 <p>Mammock is a node.js service mocking framework designed to be quick and easy, allowing developers to fill the "missing gaps" in services during development.</p>
@@ -40,9 +40,11 @@
 <h2>
 <a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h2>
 
-<p>Install the module with: <code>npm install mammock</code>
-The command line script and library can also be installed globally, with: <code>npm install -g mammock</code>
-<em>Note: To install globally, it may be necessary to become a superuser on your OS with a command such as <code>sudo</code></em></p>
+<p>Install the module with: <code>npm install mammock</code></p>
+
+<p>The command line script and library can also be installed globally, with: <code>npm install -g mammock</code></p>
+
+<p><em>Note: To install globally, it may be necessary to become a superuser on your OS with a command such as <code>sudo</code>.</em></p>
 
 <h2>
 <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
@@ -59,7 +61,67 @@ The command line script and library can also be installed globally, with: <code>
 <h3>
 <a name="adanced-usage" class="anchor" href="#adanced-usage"><span class="octicon octicon-link"></span></a>Adanced Usage</h3>
 
-<p><em>(Coming soon)</em></p>
+<p>Here is an example node, or endpoint, in Mammock:</p>
+
+<div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span>  <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//We create a variable to return, 'node', so that we can set properties to the functions</span>
+    <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">route</span><span class="p">,</span> <span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="nx">status</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+                <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="s2">"Content-Type"</span><span class="o">:</span> <span class="s2">"application/json"</span>
+                <span class="p">},</span>
+                <span class="nx">response</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({})</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nx">post</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">route</span><span class="p">,</span> <span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">endpoint</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
+                <span class="nx">postData</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+
+            <span class="nx">endpoint</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">"Now overriding the POST response..."</span><span class="p">)</span>
+
+            <span class="nx">request</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'data'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">endpoint</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">"Receiving POST data..."</span><span class="p">);</span>
+                <span class="nx">postData</span> <span class="o">+=</span> <span class="nx">data</span><span class="p">;</span>
+            <span class="p">});</span>
+            <span class="nx">request</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'end'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+                <span class="nx">endpoint</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">"Finished receiving POST data"</span><span class="p">);</span>
+
+                <span class="nx">endpoint</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">"Writing header response to POST request..."</span><span class="p">);</span>
+                <span class="nx">response</span><span class="p">.</span><span class="nx">writeHeader</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span>
+                    <span class="s2">"Content-Type"</span><span class="o">:</span> <span class="s2">"application/json"</span>
+                <span class="p">});</span>
+                <span class="nx">endpoint</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">"Writing response to POST request..."</span><span class="p">);</span>
+                <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">postData</span><span class="p">);</span>
+                <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+
+            <span class="p">});</span>
+        <span class="p">},</span>
+        <span class="nx">put</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">route</span><span class="p">,</span> <span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="nx">status</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+                <span class="nx">contentType</span><span class="o">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+                <span class="nx">response</span><span class="o">:</span> <span class="nx">data</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="k">delete</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">route</span><span class="p">,</span> <span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="nx">status</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+                <span class="nx">contentType</span><span class="o">:</span> <span class="s2">"application/json"</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">//overriding the node allows us to handle the request manually</span>
+    <span class="nx">node</span><span class="p">.</span><span class="nx">post</span><span class="p">.</span><span class="nx">override</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="c1">//setting capture on the method will allow you to have the method invoked</span>
+    <span class="c1">//after the server has already captured the data, and pass it in as the </span>
+    <span class="c1">//optional fourth parameter</span>
+    <span class="nx">node</span><span class="p">.</span><span class="nx">put</span><span class="p">.</span><span class="nx">capture</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">node</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 
 <h2>
 <a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
@@ -75,6 +137,7 @@ The command line script and library can also be installed globally, with: <code>
 <ul>
 <li>Minor fix for tests</li>
 <li>Improved test mocks somewhat, but they still need some attention</li>
+<li>Moved source files to live in src/, to clean up project root</li>
 </ul><h3>
 <a name="020" class="anchor" href="#020"><span class="octicon octicon-link"></span></a>0.2.0</h3>
 
@@ -140,29 +203,5 @@ Licensed under the MIT license.</p>
         
       </div>
     </div>
-    <script type='text/javascript'>
-        
-        var _ues = {
-        host:'mammock.userecho.com',
-        forum:'23089',
-        lang:'en',
-        tab_corner_radius:0,
-        tab_font_size:20,
-        tab_image_hash:'ZmVlZGJhY2s%3D',
-        tab_chat_hash:'Y2hhdA%3D%3D',
-        tab_alignment:'top',
-        tab_text_color:'#FFFFFF',
-        tab_text_shadow_color:'#00000055',
-        tab_bg_color:'#75A1BF',
-        tab_hover_color:'#8DC1E6'
-        };
-        
-        (function() {
-            var _ue = document.createElement('script'); _ue.type = 'text/javascript'; _ue.async = true;
-            _ue.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.userecho.com/js/widget-1.4.gz.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(_ue, s);
-          })();
-        
-    </script>
   </body>
 </html>
