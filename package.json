@@ -1,7 +1,7 @@
-{
+  {
   "name": "mammock",
   "description": "Mammock is a node.js service mocking framework designed to be quick and easy, allowing developers to fill the \"missing gaps\" in services during development.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "https://github.com/earmbrust/mammock",
   "author": {
     "name": "Elden Armbrust",
@@ -29,7 +29,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "grunt nodeunit"
+    "test": "grunt test"
   },
   "dependencies": {
     "path": "~0.4.9",
@@ -51,7 +51,22 @@
     "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-contrib-watch": "~0.4.0",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt": "~0.4.1"
+    "grunt": "~0.4.1",
+    "grunt-mocha-cov": "~0.0.7",
+    "should": "~1.2.2",
+    "blanket": "~1.1.5",
+    "coveralls": "~2.2.0",
+    "grunt-jscover": "0.0.1"
   },
-  "keywords": ["mock", "stub", "static", "data", "restful", "rest", "json", "server", "fake"]
+  "keywords": [
+    "mock",
+    "stub",
+    "static",
+    "data",
+    "restful",
+    "rest",
+    "json",
+    "server",
+    "fake"
+  ]
 }

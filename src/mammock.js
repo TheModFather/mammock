@@ -32,5 +32,5 @@ if (args.silent) {
 }
 
 server = new Mammock(hasOptions && options);
-server.info('mammock CLI interface v0.2.1');
+server.logger.info('mammock CLI interface v0.2.2');
 server.start();

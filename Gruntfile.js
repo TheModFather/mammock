@@ -3,8 +3,22 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        nodeunit: {
-            files: ['test/**/*_test.js'],
+        mochacov: {
+            coverage: {
+                options: {
+                    coveralls: {
+                        serviceName: 'travis-ci'
+                    }
+                }
+            },
+            test: {
+                options: {
+                    reporter: 'spec'
+                }
+            },
+            options: {
+                files: 'test/**/*.js'
+            }
         },
         jshint: {
             options: {
@@ -64,13 +78,15 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-nodeunit');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-mocha-cov');
 
-    grunt.registerTask('default', ['jshint', 'nodeunit']);
-    grunt.registerTask('build', ['jshint', 'nodeunit', 'uglify', 'copy']);
+    grunt.registerTask('test', ['jshint', 'mochacov:test']);
+    grunt.registerTask('build', ['uglify', 'copy']);
+    grunt.registerTask('default', ['test']);
+    
 };

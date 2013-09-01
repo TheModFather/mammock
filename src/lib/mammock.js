@@ -53,22 +53,27 @@ var Mammock = function (options) {
         exitOnError: false
     });
 
-    this.logger.extend(this);
-
     this._internals = {};
     return this;
 };
 
-Mammock.prototype.start = function () {
+Mammock.prototype.stop = function () {
+    var _this = this;
+    _this.logger.info("Shutting down...");
+    this._internals.server.close();
+    _this.logger.info("Server shutdown complete.");
+};
+
+Mammock.prototype.start = function (fn) {
     var _this = this;
     
     fs.realpath(this.options.root, function (pathError, rootPath) {
         _this.options.root = rootPath;
 
-        _this.info("Starting server on port " + _this.options.port);
+        _this.logger.info("Starting server on port " + _this.options.port);
         _this._internals.server = http.createServer();
         
-        _this.info("Serving data from " + _this.options.root);
+        _this.logger.info("Serving data from " + _this.options.root);
 
         _this._internals.server.on("request", function (request, response) {
             var blacklisted = false,
@@ -76,11 +81,11 @@ Mammock.prototype.start = function () {
                 invalidContent = false,
                 isHandled = false;
             for (var index in blacklist) {
-                _this.info("Checking blacklist entries for " + request.url);
+                _this.logger.info("Checking blacklist entries for " + request.url);
                 var blacklist_entry = blacklist[index],
                     matches = request.url.match(blacklist_entry);
                 if (matches && matches.length > 0) {
-                    _this.error("Found blacklist entry " + blacklist[index] + " for " + request.url);
+                    _this.logger.error("Found blacklist entry " + blacklist[index] + " for " + request.url);
                     blacklisted = true;
                 }
             }
@@ -88,35 +93,35 @@ Mammock.prototype.start = function () {
             route = route.replace(/^\//g, '');
             route = route.replace(/\/$/g, '');
             if (route === "") {
-                _this.info("Directory root requested, serving _index module");
+                _this.logger.info("Directory root requested, serving _index module");
                 route = "_index";
             }
             
             try {
-                _this.info("Looking for endpoint in " + path.join(_this.options.root, route));
+                _this.logger.info("Looking for endpoint in " + path.join(_this.options.root, route));
                 require.resolve(path.join(_this.options.root, route));
             } catch (ex) {
                 _this.warn("Endpoint could not be found, attempting as directory index");
                 _this.warn(ex.message);
                 try {
                     require.resolve(path.join(_this.options.root, route) + "/_index");
-                    _this.info("Found directory index for " + route);
+                    _this.logger.info("Found directory index for " + route);
                 }
                 catch (fbex) {
-                    _this.error("No index found, missing resource requested: " + request.url);
-                    _this.error("No module named '" + route + "' could be found.");
-                    _this.error(fbex.message);
+                    _this.logger.error("No index found, missing resource requested: " + request.url);
+                    _this.logger.error("No module named '" + route + "' could be found.");
+                    _this.logger.error(fbex.message);
                     missing = true;
                 }
             }
 
             if (request.headers['content-type']) {
-                _this.info("Received content type: " + request.headers['content-type']);
+                _this.logger.info("Received content type: " + request.headers['content-type']);
             }
 
             if (!blacklisted && !missing && !invalidContent) {
-                _this.info("Request being handled...");
-                _this.info("Loading endpoint from " + require.resolve(path.join(_this.options.root, route)));
+                _this.logger.info("Request being handled...");
+                _this.logger.info("Loading endpoint from " + require.resolve(path.join(_this.options.root, route)));
                 var endpoint = new (require(path.join(_this.options.root, route)))();
                 var methods = [];
                 _this.logger.extend(endpoint);
@@ -128,21 +133,21 @@ Mammock.prototype.start = function () {
 
                 if (!isHandled && endpoint[request.method.toLowerCase()]) {
                     var requestResponse;
-                    _this.info("Serving " + request.method + " request...");
+                    _this.logger.info("Serving " + request.method + " request...");
                     
                     if (!endpoint[request.method.toLowerCase()].override) {
                         if (endpoint[request.method.toLowerCase()].capture) {
                             var capturedData = "";
                             request.on('data', function (data) {
-                                _this.info("Receiving " + request.method + " data...");
+                                _this.logger.info("Receiving " + request.method + " data...");
                                 capturedData += data;
                             });
                             request.on('end', function () {
-                                _this.info("Finished receiving " + request.method + " data");
+                                _this.logger.info("Finished receiving " + request.method + " data");
                                 requestResponse = endpoint[request.method.toLowerCase()](route, request, response, capturedData);
-                                _this.info("Writing header response to " + request.method + " request...");
+                                _this.logger.info("Writing header response to " + request.method + " request...");
                                 response.writeHeader(requestResponse.status, requestResponse.headers || {});
-                                _this.info("Writing response to " + request.method + " request...");
+                                _this.logger.info("Writing response to " + request.method + " request...");
                                 
                                 if (requestResponse.response) {
                                     response.write(requestResponse.response);
@@ -150,12 +155,12 @@ Mammock.prototype.start = function () {
                                 response.end();
                             });
                         } else {
-                            _this.info("Writing header response to " + request.method + " request...");
+                            _this.logger.info("Writing header response to " + request.method + " request...");
                             requestResponse = endpoint[request.method.toLowerCase()](route, request, response);
                             response.writeHeader(requestResponse.status, {
                                 "Content-Type": "application/json"
                             });
-                            _this.info("Writing response to " + request.method + " request...");
+                            _this.logger.info("Writing response to " + request.method + " request...");
                             if (requestResponse.response) {
                                 response.write(requestResponse.response);    
                             }
@@ -174,19 +179,19 @@ Mammock.prototype.start = function () {
                     response.end();
                 }
             } else if (blacklisted) {
-                _this.error("Blacklisted endpoint request rejected with 404 status");
+                _this.logger.error("Blacklisted endpoint request rejected with 404 status");
                 response.writeHeader(404, {
                     "Content-Type": "text/plain"
                 });
                 response.end();
             } else if (missing) {
-                _this.error("Missing endpoint request rejected with 404 status");
+                _this.logger.error("Missing endpoint request rejected with 404 status");
                 response.writeHeader(404, {
                     "Content-Type": "text/plain"
                 });
                 response.end();
             } else if (invalidContent) {
-                _this.error("Invalid content request rejected with 406 status");
+                _this.logger.error("Invalid content request rejected with 406 status");
                 response.writeHeader(406, {
                     "Content-Type": "text/plain"
                 });
@@ -196,7 +201,11 @@ Mammock.prototype.start = function () {
 
         _this._internals.server.listen(_this.options.port);
 
-        _this.info("Server started and listening...");
+        _this.logger.info("Server started and listening...");
+
+        if (typeof fn === "function") {
+            fn({ server: _this });
+        }
     });
 };
 

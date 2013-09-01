@@ -85,6 +85,12 @@ module.exports  = function () {
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+### 0.2.2
+* Switched to mocha for testing, as it provides more reporters
+* Improved testing a bit
+* Switched npm test script from `npm nodeunit` to `npm test`
+* One step closer to coveralls reporting...
+
 ### 0.2.1
 * Minor fix for tests
 * Improved test mocks somewhat, but they still need some attention
