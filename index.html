@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Mammock by earmbrust</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Mammock</h1>
+          <h2>Mammock is a node.js service mocking framework designed to be quick and easy, allowing developers to fill the &quot;missing gaps&quot; in services during development.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/earmbrust/mammock/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/earmbrust/mammock/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/earmbrust/mammock" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="mammock-" class="anchor" href="#mammock-"><span class="octicon octicon-link"></span></a>mammock <a href="http://travis-ci.org/earmbrust/mammock"><img src="https://secure.travis-ci.org/earmbrust/mammock.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>Mammock is a node.js service mocking framework designed to be quick and easy, allowing developers to fill the "missing gaps" in services during development.</p>
+
+<h2>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>Install the module with: <code>npm install mammock</code>
+The command line script and library can also be installed globally, with: <code>npm install -g mammock</code>
+<em>Note: To install globally, it may be necessary to become a superuser on your OS with a command such as <code>sudo</code></em></p>
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<h3>
+<a name="basic-usage" class="anchor" href="#basic-usage"><span class="octicon octicon-link"></span></a>Basic Usage</h3>
+
+<pre><code>USAGE: node mammock [--port &lt;ARG1&gt;] [--root &lt;ARG1&gt;] [--silent] 
+  -p, --port &lt;ARG1&gt;     specify the port to listen on
+  -r, --root &lt;ARG1&gt;     root path to serve from
+  -s, --silent          runs the server without console output
+</code></pre>
+
+<h3>
+<a name="adanced-usage" class="anchor" href="#adanced-usage"><span class="octicon octicon-link"></span></a>Adanced Usage</h3>
+
+<p><em>(Coming soon)</em></p>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using <a href="http://gruntjs.com/">Grunt</a>.</p>
+
+<h2>
+<a name="release-history" class="anchor" href="#release-history"><span class="octicon octicon-link"></span></a>Release History</h2>
+
+<h3>
+<a name="021" class="anchor" href="#021"><span class="octicon octicon-link"></span></a>0.2.1</h3>
+
+<ul>
+<li>Minor fix for tests</li>
+<li>Improved test mocks somewhat, but they still need some attention</li>
+</ul><h3>
+<a name="020" class="anchor" href="#020"><span class="octicon octicon-link"></span></a>0.2.0</h3>
+
+<ul>
+<li>Major rewrite of the routing engine to better suit a multitude of custom requesti methods</li>
+<li>Removed Mammock.Endpoint and Mammock.Server, moving main constructor to the initial mammock instance</li>
+<li>endpoints now get extended with logging abilities</li>
+</ul><h3>
+<a name="016" class="anchor" href="#016"><span class="octicon octicon-link"></span></a>0.1.6</h3>
+
+<ul>
+<li>Fixed documentation error stating the version was 0.2.5</li>
+<li>Fixed major GET bug</li>
+</ul><h3>
+<a name="015" class="anchor" href="#015"><span class="octicon octicon-link"></span></a>0.1.5</h3>
+
+<ul>
+<li>Fixed build further</li>
+<li>Actually ready for release</li>
+</ul><h3>
+<a name="014" class="anchor" href="#014"><span class="octicon octicon-link"></span></a>0.1.4</h3>
+
+<ul>
+<li>Cleaned up build</li>
+<li>First npm publish</li>
+</ul><h3>
+<a name="013" class="anchor" href="#013"><span class="octicon octicon-link"></span></a>0.1.3</h3>
+
+<ul>
+<li>Fixed major endpoint bug, which resulted in endpoints being inaccessible</li>
+<li>Fixed index routing bug</li>
+</ul><h3>
+<a name="012" class="anchor" href="#012"><span class="octicon octicon-link"></span></a>0.1.2</h3>
+
+<ul>
+<li>Added timestamps to logs</li>
+<li>Added -s/--silent option to allow running the server sans output</li>
+<li>Renamed bin/mammock to bin/mammock.js because no extension is stupid.</li>
+<li>endpoints should now be reachable</li>
+</ul><h3>
+<a name="011" class="anchor" href="#011"><span class="octicon octicon-link"></span></a>0.1.1</h3>
+
+<ul>
+<li>First functional server running as intended.</li>
+<li>Options added to command line</li>
+</ul><h3>
+<a name="010" class="anchor" href="#010"><span class="octicon octicon-link"></span></a>0.1.0</h3>
+
+<ul>
+<li>Added initial structure and got .travis.yml not being bejankity.</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright (c) 2013 Elden Armbrust<br>
+Licensed under the MIT license.</p>
+        </section>
+
+        <footer>
+          Mammock is maintained by <a href="https://github.com/earmbrust">earmbrust</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
