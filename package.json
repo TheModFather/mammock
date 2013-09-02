@@ -29,7 +29,12 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "blanket": {
+      "pattern": [
+        "src/lib"
+      ]
+    }
   },
   "dependencies": {
     "path": "~0.4.9",
