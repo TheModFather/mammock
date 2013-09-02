@@ -32,7 +32,7 @@
     "test": "grunt test",
     "blanket": {
       "pattern": [
-        "src/lib/*.js"
+        "src/lib"
       ]
     }
   },

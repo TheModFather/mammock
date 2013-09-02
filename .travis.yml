@@ -5,4 +5,4 @@ node_js:
 before_script:
   - npm install -g grunt-cli
 script:
-  - grunt mochacov:coverage --verbose --stack --debug
+  - grunt mochacov:coverage

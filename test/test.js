@@ -31,7 +31,7 @@ describe('Server', function(){
         done();
     });
     it ("should start and stop", function (done) {
-        this.timeout(300);
+        this.timeout(500);
         var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
         (typeof Mammock).should.equal("function");
         var server = new Mammock();
@@ -41,7 +41,7 @@ describe('Server', function(){
 
             server.stop();
             done();
-        }, 200);
+        }, 700);
     });
     it ("should capture options", function (done) {
         var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
