@@ -33,7 +33,7 @@ module.exports  = function () {
                 response: JSON.stringify({})
             }
         },
-        post: function (route, request, response, data) {
+        post: function (route, request, response) {
             var endpoint = this,
                 postData = "";
 
