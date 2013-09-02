@@ -16,7 +16,8 @@ process.stdin.setEncoding('utf8');
 args = stdio.getopt({
     'port': {key: 'p', args: 1, description: 'specify the port to listen on'},
     'root': {key: 'r', args: 1, description: 'root path to serve from'},
-    'silent': {key: 's', description: 'runs the server without console output'}
+    'silent': {key: 's', description: 'runs the server without console output'},
+    'version': {key: 'v', description: 'returns the server version'}
 });
 
 if (args.port) {
@@ -34,6 +35,8 @@ if (args.silent) {
     extend(options, { silent: true });
 }
 
+
+
 server = new Mammock(hasOptions && options);
 process.stdin.on('data', function(key) {
     if (key === '\u0003') {
@@ -41,6 +44,11 @@ process.stdin.on('data', function(key) {
         process.exit(); 
     }
 });
+if (args.version) {
+    console.log('mammock v' + server.getVersion() + " (c) 2013 Elden Armbrust");
+    console.log('Released under the MIT License <http://opensource.org/licenses/MIT>');
+    process.exit();
+}
 server.logger.info('mammock CLI interface v' + server.getVersion());
 server.logger.info('Use Ctrl-C to stop the server');
 server.start();
