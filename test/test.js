@@ -9,9 +9,9 @@ var proxyquire =  require('proxyquire'),
 var winstonMock = {
   Logger: function () {
     return {
-      info: function () { },
-      warn: function () { },
-      error: function () { },
+      info: function () { this.logged = true; },
+      warn: function () { this.logged = true; },
+      error: function () { this.logged = true; },
       extend: function (object) {
         object.info = this.info;
         object.warn = this.warn;
@@ -21,28 +21,35 @@ var winstonMock = {
   }
 };
 
-
-
 describe('Server', function(){
     it ("should instantiate", function(done){
         var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
         (typeof Mammock).should.equal("function");
         var server = new Mammock();
+        server.should.be.an.instanceof(Mammock);
         done();
     });
-    // it ("should start and stop", function (done) {
-    //     this.timeout(500);
-    //     var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
-    //     (typeof Mammock).should.equal("function");
-    //     var server = new Mammock();
-    //     server.start();
-    //     setTimeout(function () {
-    //         server.should.be.an.instanceof(Mammock);
+    it ("should start and stop", function (done) {
+        this.timeout(700);
+        var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
+        (typeof Mammock).should.equal("function");
+        var server = new Mammock();
+        server.start();
+        setTimeout(function () {
+            server.should.be.an.instanceof(Mammock);
+            server.stop();
+            done();
+        }, 500);
+    });
 
-    //         server.stop();
-    //         done();
-    //     }, 700);
-    // });
+    it ("should return version", function (done) {
+        var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
+        var server = new Mammock();
+          
+        should.exist(server._internals.pkginfo);
+        should.exist(server.getVersion());
+        done();
+    });
     it ("should capture options", function (done) {
         var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
         var server = new Mammock({port: 5050, root: "test"});
@@ -54,10 +61,9 @@ describe('Server', function(){
         var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
         var server = new Mammock();
         server.start(function () {
-          server.stop();
           should.exist(server);
+          server.stop();
           done();
         });
-        //done();
     });
 });

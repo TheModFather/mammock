@@ -19,10 +19,6 @@ var winston = require("winston"),
     ];
 
 var Mammock = function (options) {
-    if (!(this instanceof Mammock)) {
-        return new Mammock(options);
-    }
-    
     if (options) {
         this.options = extend(true, {
             port: DEFAULT_PORT,
@@ -53,12 +49,11 @@ var Mammock = function (options) {
         exitOnError: false
     });
 
-    this._internals = {};
-    if (fs.existsSync(path.join(__dirname, '..', 'package.json'))) {
-        this._internals.pkginfo = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
-    } else {
-        this.logger.warn('No package information could be found.');    
-    }
+    this._internals = {
+        pkginfo: {
+            version: "0.2.3"
+        }
+    };
     
     return this;
 };

@@ -89,6 +89,7 @@ module.exports = function (grunt) {
     grunt.registerTask('output', ['uglify', 'copy']);
 
     grunt.registerTask('build', ['test', 'output']);
+    grunt.registerTask('ci', ['jshint', 'mochacov']);
     grunt.registerTask('default', ['test']);
     
 };
