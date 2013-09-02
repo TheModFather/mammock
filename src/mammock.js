@@ -9,6 +9,9 @@ var Mammock = require("mammock"),
     options = { port: 4040 },
     hasOptions = false,
     args;
+process.stdin.setRawMode(true);
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
 
 args = stdio.getopt({
     'port': {key: 'p', args: 1, description: 'specify the port to listen on'},
@@ -32,5 +35,12 @@ if (args.silent) {
 }
 
 server = new Mammock(hasOptions && options);
-server.logger.info('mammock CLI interface v0.2.2');
+process.stdin.on('data', function(key) {
+    if (key === '\u0003') {
+        server.stop();
+        process.exit(); 
+    }
+});
+server.logger.info('mammock CLI interface v' + server.getVersion());
+server.logger.info('Use Ctrl-C to stop the server');
 server.start();

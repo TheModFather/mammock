@@ -86,7 +86,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-cov');
 
     grunt.registerTask('test', ['jshint', 'mochacov:test']);
-    grunt.registerTask('build', ['uglify', 'copy']);
+    grunt.registerTask('output', ['uglify', 'copy']);
+
+    grunt.registerTask('build', ['test', 'output']);
     grunt.registerTask('default', ['test']);
     
 };

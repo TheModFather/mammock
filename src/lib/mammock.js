@@ -54,6 +54,12 @@ var Mammock = function (options) {
     });
 
     this._internals = {};
+    if (fs.existsSync(path.join(__dirname, '..', 'package.json'))) {
+        this._internals.pkginfo = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
+    } else {
+        this.logger.warn('No package information could be found.');    
+    }
+    
     return this;
 };
 
@@ -207,6 +213,10 @@ Mammock.prototype.start = function (fn) {
             fn({ server: _this });
         }
     });
+};
+
+Mammock.prototype.getVersion = function () {
+    return this._internals.pkginfo.version;
 };
 
 module.exports = Mammock;

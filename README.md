@@ -85,6 +85,13 @@ module.exports  = function () {
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+### 0.2.3
+* Server now retrieves package.json data
+* Server can now return the mammock version via Mammock.getVersion()
+* CLI mammock now reads the displayed version from the server
+* `grunt build` now runs the `test` task before building
+* CLI mammock can now be shutdown cleanly with Ctrl-c
+
 ### 0.2.2
 * Switched to mocha for testing, as it provides more reporters
 * Improved testing a bit
