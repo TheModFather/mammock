@@ -2,15 +2,15 @@ var _ues = {
 host:'mammock.userecho.com',
 forum:'23089',
 lang:'en',
-tab_corner_radius:0,
+tab_corner_radius:5,
 tab_font_size:20,
 tab_image_hash:'ZmVlZGJhY2s%3D',
 tab_chat_hash:'Y2hhdA%3D%3D',
 tab_alignment:'top',
 tab_text_color:'#FFFFFF',
 tab_text_shadow_color:'#00000055',
-tab_bg_color:'#75A1BF',
-tab_hover_color:'#8DC1E6'
+tab_bg_color:'#960009',
+tab_hover_color:'#D5000D'
 };
 
 (function() {
