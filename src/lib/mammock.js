@@ -32,6 +32,10 @@ var Mammock = function (options) {
             blacklist: blacklist
         };
     }
+    this.timeStamp = function () {
+        var date = new Date();
+        return dateFormat(date, "isoDateTime");
+    };
 
     this.logger = new winston.Logger({
         transports: [
@@ -40,10 +44,7 @@ var Mammock = function (options) {
                 json: false,
                 colorize: true,
                 silent: this.options.silent,
-                timestamp: function () {
-                    var date = new Date();
-                    return dateFormat(date, "isoDateTime");
-                }
+                timestamp: this.timeStamp
             })
         ],
         exitOnError: false

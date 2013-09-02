@@ -48,6 +48,15 @@ describe('Server', function(){
           
         should.exist(server._internals.pkginfo);
         should.exist(server.getVersion());
+
+        done();
+    });
+
+    it ("should timestamp", function (done) {
+        var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
+        var server = new Mammock();
+        var timecheck = new RegExp('((?:2|1)\\d{3}(?:-|\\/)(?:(?:0[1-9])|(?:1[0-2]))(?:-|\\/)(?:(?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(?:T|\\s)(?:(?:[0-1][0-9])|(?:2[0-3])):(?:[0-5][0-9]):(?:[0-5][0-9]))', "gi");
+        server.timeStamp().match(timecheck).length.should.equal(1);
         done();
     });
     it ("should capture options", function (done) {
