@@ -75,4 +75,20 @@ describe('Server', function(){
           done();
         });
     });
+
+    it ("should process requests", function (done) {
+        var Mammock = proxyquire('../src/lib/mammock.js', { 'winston': winstonMock });
+        var server = new Mammock();
+        server.handleRequest = function (request, response) {
+            should.exist(request);
+            should.exist(response);
+            server.stop();
+            done();
+        };
+        
+        server.start(function () {
+            server._internals.server.emit('request', {}, {});    
+        });
+    });
+
 });

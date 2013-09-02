@@ -77,8 +77,28 @@ Mammock.prototype.start = function (fn) {
         
         _this.logger.info("Serving data from " + _this.options.root);
 
-        _this._internals.server.on("request", function (request, response) {
-            var blacklisted = false,
+        _this._internals.server.on("request", function () {
+            _this.handleRequest.apply(_this, arguments);
+        });
+
+        _this._internals.server.listen(_this.options.port);
+
+        _this.logger.info("Server started and listening...");
+
+        if (typeof fn === "function") {
+            fn({ server: _this });
+        }
+    });
+};
+
+Mammock.prototype.getVersion = function () {
+    return this._internals.pkginfo.version;
+};
+
+Mammock.prototype.handleRequest = function (request, response) {
+    console.log(this);
+            var _this = this,
+                blacklisted = false,
                 missing = false,
                 invalidContent = false,
                 isHandled = false;
@@ -159,9 +179,7 @@ Mammock.prototype.start = function (fn) {
                         } else {
                             _this.logger.info("Writing header response to " + request.method + " request...");
                             requestResponse = endpoint[request.method.toLowerCase()](route, request, response);
-                            response.writeHeader(requestResponse.status, {
-                                "Content-Type": "application/json"
-                            });
+                            response.writeHeader(requestResponse.status, requestResponse.headers);
                             _this.logger.info("Writing response to " + request.method + " request...");
                             if (requestResponse.response) {
                                 response.write(requestResponse.response);    
@@ -199,20 +217,6 @@ Mammock.prototype.start = function (fn) {
                 });
                 response.end();
             }
-        });
-
-        _this._internals.server.listen(_this.options.port);
-
-        _this.logger.info("Server started and listening...");
-
-        if (typeof fn === "function") {
-            fn({ server: _this });
-        }
-    });
-};
-
-Mammock.prototype.getVersion = function () {
-    return this._internals.pkginfo.version;
-};
+        };
 
 module.exports = Mammock;
