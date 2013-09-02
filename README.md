@@ -90,6 +90,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * Improved testing a bit
 * Switched npm test script from `npm nodeunit` to `npm test`
 * One step closer to coveralls reporting...
+* Fix for slightly outdated grunt-watch-contrib dependency (thank you gemnasium)
 
 ### 0.2.1
 * Minor fix for tests
