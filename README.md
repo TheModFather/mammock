@@ -1,6 +1,6 @@
 # mammock [![Build Status](https://secure.travis-ci.org/earmbrust/mammock.png?branch=master)](http://travis-ci.org/earmbrust/mammock) [![Dependency Status](https://gemnasium.com/earmbrust/mammock.png)](https://gemnasium.com/earmbrust/mammock) [![Coverage Status](https://coveralls.io/repos/earmbrust/mammock/badge.png)](https://coveralls.io/r/earmbrust/mammock)
 
-Mammock is a node.js service mocking framework designed to be quick and easy, allowing developers to fill the "missing gaps" in services during development.
+Mammock is a node.js service mocking framework designed to be quick and easy, allowing developers to fill the "missing gaps" in services during development.  Mammock is still under heavy development, but has already proven itself extremely useful as part of a UI developers toolkit.  Using the default method for locating resources, the directory structure is well-suited for any modern SCM. Using the command line interface, even non-developers can quickly pull the latest version of the mock environment from SCM and have a mocked service up and running in moments. In load tests, Mammock has shown to handle an exceptionally large number of requests efficiently, ensuring that even the most hostile web application will perform as expected.
 
 ## Getting Started
 Install the module with: `npm install mammock`
@@ -71,8 +71,15 @@ module.exports  = function () {
         }
     }
 
+    //using .delay lets you simulate basic network latency
+    //both numbers and functions (that return numbers) are valid values
+    node.get.delay = function () {
+        return Math.floor(Math.random() * (500 - 10 + 1) + 10);
+    }
+
     //overriding the node allows us to handle the request manually
     node.post.override = true;
+
     //setting capture on the method will allow you to have the method invoked
     //after the server has already captured the data, and pass it in as the 
     //optional fourth parameter
@@ -85,6 +92,11 @@ module.exports  = function () {
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+### 0.2.4
+* Server no longer retrieves package.json data (bad ideas are bad.)
+* Server now can accept a delay parameter for individual methods (see example)
+* minor code cleanup
+
 ### 0.2.3
 * Server now retrieves package.json data
 * Server can now return the mammock version via Mammock.getVersion()

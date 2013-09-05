@@ -52,7 +52,7 @@ var Mammock = function (options) {
 
     this._internals = {
         pkginfo: {
-            version: "0.2.3"
+            version: "0.2.4"
         }
     };
     
@@ -96,7 +96,6 @@ Mammock.prototype.getVersion = function () {
 };
 
 Mammock.prototype.handleRequest = function (request, response) {
-    console.log(this);
             var _this = this,
                 blacklisted = false,
                 missing = false,
@@ -154,41 +153,57 @@ Mammock.prototype.handleRequest = function (request, response) {
                 }
 
                 if (!isHandled && endpoint[request.method.toLowerCase()]) {
-                    var requestResponse;
+                    var delayTimer = 0,
+                        requestResponse;
+
+                    if (endpoint[request.method.toLowerCase()].delay) {
+                        _this.logger.info('Found response delay for ' + request.method);
+                        if (typeof endpoint[request.method.toLowerCase()].delay === "number") {
+                            delayTimer = endpoint[request.method.toLowerCase()].delay;
+                            _this.logger.info("Response delay set to " + delayTimer + "ms");
+                        } else if (typeof endpoint[request.method.toLowerCase()].delay === "function") {
+                            delayTimer = endpoint[request.method.toLowerCase()].delay();
+                            _this.logger.info("Response delay set to function callback, actual delay this request is " + delayTimer + "ms");
+                        }
+                    }
+
                     _this.logger.info("Serving " + request.method + " request...");
-                    
-                    if (!endpoint[request.method.toLowerCase()].override) {
-                        if (endpoint[request.method.toLowerCase()].capture) {
-                            var capturedData = "";
-                            request.on('data', function (data) {
-                                _this.logger.info("Receiving " + request.method + " data...");
-                                capturedData += data;
-                            });
-                            request.on('end', function () {
-                                _this.logger.info("Finished receiving " + request.method + " data");
-                                requestResponse = endpoint[request.method.toLowerCase()](route, request, response, capturedData);
+
+                    _this._internals.delayTimer = setTimeout(function () {
+
+                        if (!endpoint[request.method.toLowerCase()].override) {
+                            if (endpoint[request.method.toLowerCase()].capture) {
+                                var capturedData = "";
+                                request.on('data', function (data) {
+                                    _this.logger.info("Receiving " + request.method + " data...");
+                                    capturedData += data;
+                                });
+                                request.on('end', function () {
+                                    _this.logger.info("Finished receiving " + request.method + " data");
+                                    requestResponse = endpoint[request.method.toLowerCase()](route, request, response, capturedData);
+                                    _this.logger.info("Writing header response to " + request.method + " request...");
+                                    response.writeHeader(requestResponse.status, requestResponse.headers || {});
+                                    _this.logger.info("Writing response to " + request.method + " request...");
+                                    
+                                    if (requestResponse.response) {
+                                        response.write(requestResponse.response);
+                                    }
+                                    response.end();
+                                });
+                            } else {
                                 _this.logger.info("Writing header response to " + request.method + " request...");
-                                response.writeHeader(requestResponse.status, requestResponse.headers || {});
+                                requestResponse = endpoint[request.method.toLowerCase()](route, request, response);
+                                response.writeHeader(requestResponse.status, requestResponse.headers);
                                 _this.logger.info("Writing response to " + request.method + " request...");
-                                
                                 if (requestResponse.response) {
-                                    response.write(requestResponse.response);
+                                    response.write(requestResponse.response);    
                                 }
                                 response.end();
-                            });
+                            }                        
                         } else {
-                            _this.logger.info("Writing header response to " + request.method + " request...");
-                            requestResponse = endpoint[request.method.toLowerCase()](route, request, response);
-                            response.writeHeader(requestResponse.status, requestResponse.headers);
-                            _this.logger.info("Writing response to " + request.method + " request...");
-                            if (requestResponse.response) {
-                                response.write(requestResponse.response);    
-                            }
-                            response.end();
-                        }                        
-                    } else {
-                        endpoint[request.method.toLowerCase()](route, request, response);
-                    }
+                            endpoint[request.method.toLowerCase()](route, request, response);
+                        }
+                    }, delayTimer);
                     isHandled = true;
                 }
 
