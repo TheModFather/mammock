@@ -1,7 +1,7 @@
-  {
+{
   "name": "mammock",
   "description": "Mammock is a node.js service mocking framework designed to be quick and easy, allowing developers to fill the \"missing gaps\" in services during development.",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "homepage": "http://earmbrust.github.io/mammock/",
   "author": {
     "name": "Elden Armbrust",
@@ -26,43 +26,22 @@
   },
   "main": "lib/mammock",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 16.0.0"
   },
   "scripts": {
-    "test": "grunt test",
-    "blanket": {
-      "pattern": [
-        "src/lib"
-      ]
-    }
-  },
-  "dependencies": {
-    "path": "~0.4.9",
-    "stdio": "~0.1.0",
-    "winston": "~0.7.2",
-    "node.extend": "~1.0.8",
-    "dateformat": "~1.0.6-1.2.3",
-    "process": "~0.5.1"
+    "test": "grunt test"
   },
   "devDependencies": {
-    "path": "~0.4.9",
-    "stdio": "~0.1.0",
-    "winston": "~0.7.2",
-    "node.extend": "~1.0.8",
-    "dateformat": "~1.0.6-1.2.3",
-    "proxyquire": "~0.5.1",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt": "~0.4.1",
-    "grunt-mocha-cov": "~0.0.7",
-    "should": "~1.2.2",
-    "blanket": "~1.1.5",
-    "coveralls": "~2.2.0",
-    "grunt-jscover": "0.0.1"
+    "@types/node": "^20.12.7",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
+    "commander": "^12.0.0",
+    "coveralls": "^3.1.1",
+    "dateformat": "^5.0.3",
+    "eslint": "^8.57.0",
+    "node-extend": "^0.2.0",
+    "typescript": "^5.4.5",
+    "winston": "^3.13.0"
   },
   "keywords": [
     "mock",
@@ -74,5 +53,9 @@
     "json",
     "server",
     "fake"
-  ]
+  ],
+  "dependencies": {
+    "@types/http-server": "^0.12.4",
+    "proxyquire": "^2.1.3"
+  }
 }

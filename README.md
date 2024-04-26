@@ -151,5 +151,5 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 * Added initial structure and got .travis.yml not being bejankity.
 
 ## License
-Copyright (c) 2013 Elden Armbrust  
+Copyright (c) 2013-2024 Elden Armbrust  
 Licensed under the MIT license.
